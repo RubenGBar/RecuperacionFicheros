@@ -56,7 +56,7 @@ public class Viaje {
 		cad += "Viaje a " + this.lugar + "\n";
 		cad += "Fecha: " + this.fecha + "\n";
 		cad += "Precio: " + this.precio + "\n";
-		cad += "------------------------------------";
+		cad += "-------------------------------------------";
 		
 		return cad;
 	}
