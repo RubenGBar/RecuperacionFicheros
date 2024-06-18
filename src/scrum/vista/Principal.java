@@ -17,7 +17,7 @@ public class Principal {
 		int opc;
 		Scanner sc = new Scanner(System.in);
 		
-		TratarFicheros.rellenar();
+		GestorViajes.rellenarLista();
 		
 		do {
 			
@@ -69,7 +69,7 @@ public class Principal {
 				
 				case 5 -> { // Guardar
 					
-					TratarFicheros.guardar();
+					GestorViajes.gurdarEnLista();
 					System.out.println("Se han guardado los viajes");
 					
 				}

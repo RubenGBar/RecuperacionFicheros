@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Scanner;
 
+import scrum.manipularficheros.TratarFicheros;
+
 public class GestorViajes {
 
 	static HashSet<Viaje> listaViajes = new HashSet<>();
 	static Scanner sc = new Scanner(System.in);
-	
-	public static HashSet<Viaje> getListaViajes() {
-		return listaViajes;
-	}
 	
 	public static void agregar(Viaje v) {
 		
@@ -162,6 +160,18 @@ public class GestorViajes {
 		}while(!modificado && opc < 1 || opc > 2);
 		
 		return modificado;
+	}
+	
+	public static void rellenarLista() {
+		
+		TratarFicheros.rellenar(listaViajes);
+		
+	}
+	
+	public static void gurdarEnLista() {
+		
+		TratarFicheros.guardar(listaViajes);
+		
 	}
 
 }

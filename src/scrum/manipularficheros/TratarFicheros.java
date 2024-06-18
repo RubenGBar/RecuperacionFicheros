@@ -6,8 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
-import scrum.clases.GestorViajes;
+import java.util.HashSet;
 import scrum.clases.Viaje;
 
 public class TratarFicheros {
@@ -16,7 +15,7 @@ public class TratarFicheros {
 	public static BufferedWriter bw;
 	public static String ruta = "src/scrum/ficheros/datosTurismo.txt";
 	
-	public static void rellenar() {
+	public static void rellenar(HashSet<Viaje> listaViajes) {
 		
 		String linea;
 		String[] elementos;
@@ -32,7 +31,7 @@ public class TratarFicheros {
 				
 				elementos = linea.split("::");
 				viaje = new Viaje(elementos[0], elementos[1], Integer.parseInt(elementos[2]));
-				GestorViajes.getListaViajes().add(viaje);
+				listaViajes.add(viaje);
 				
 				linea = br.readLine();
 			}
@@ -61,13 +60,13 @@ public class TratarFicheros {
 		
 	}
 	
-	public static void guardar() {
+	public static void guardar(HashSet<Viaje> listaViajes) {
 		
 		try {
 			
 			bw = new BufferedWriter(new FileWriter(ruta));
 			
-			for(Viaje v: GestorViajes.getListaViajes()) {
+			for(Viaje v: listaViajes) {
 				
 				bw.write(v.getLugar() + "::" + v.getFecha() + "::" + v.getPrecio());
 				bw.newLine();
