@@ -9,34 +9,23 @@ public class GestorViajes {
 	static HashSet<Viaje> listaViajes = new HashSet<>();
 	static Scanner sc = new Scanner(System.in);
 	
-	public static boolean agregar() {
-		
-		Viaje v;
-		double precio;
-		String lugar;
-		String fecha;
-		boolean agregadoBien = false;
-		
-		System.out.println("Introduzca un lugar para el viaje");
-		lugar = sc.nextLine();
-		
-		System.out.println("Introduzca una fecha para el viaje");
-		fecha = sc.nextLine();
-		
-		System.out.println("Introduzca un precio para el viaje");
-		precio = sc.nextDouble();
-		sc.nextLine();
-		
-		v = new Viaje(lugar, fecha, precio);
+	public static HashSet<Viaje> getListaViajes() {
+		return listaViajes;
+	}
+	
+	public static void agregar(Viaje v) {
 		
 		if(listaViajes.add(v)) {
 			
-			agregadoBien = true;
+			System.out.println("Se ha añadido el viaje");
+			
+		} else {
+			
+			System.out.println("No se ha podido añadir el viaje");
 			
 		}
 		
-		return agregadoBien;
-		
+
 	}
 	
 	public static void listarViajes() {
@@ -49,21 +38,15 @@ public class GestorViajes {
 		
 	}
 	
-	public static Viaje buscar() {
+	public static Viaje buscar(String lugar) {
 		
-		Viaje viajeBuscar = null;
-		String lugar;
 		ArrayList<Viaje> viajesEncontrados = new ArrayList<>();
 		int indice = -1;
-		
-		System.out.println("Introduzca un viaje a buscar por su lugar");
-		lugar = sc.nextLine();
-		
-		viajeBuscar = new Viaje(lugar); 
+		Viaje viajeBuscar;
 		
 		for(Viaje v: listaViajes) {
 			
-			if(v.equals(viajeBuscar)) {
+			if(v.getLugar().equals(lugar)) {
 				
 				viajesEncontrados.add(v);
 				
@@ -71,34 +54,114 @@ public class GestorViajes {
 			
 		}
 		
-		if(viajesEncontrados.size() >= 2) {
+		for(int i = 0; i < viajesEncontrados.size(); i++) {
 			
-			for(int i = 0; i < viajesEncontrados.size(); i++) {
-				
-				System.out.println(i + " Lugar: " + viajesEncontrados.get(i).getLugar() + ", Fecha: " + viajesEncontrados.get(i).getFecha() + ", Precio: " + viajesEncontrados.get(i).getPrecio());
-				
-			}
+			System.out.println(i + " Lugar: " + viajesEncontrados.get(i).getLugar() + ", Fecha: " + viajesEncontrados.get(i).getFecha() + ", Precio: " + viajesEncontrados.get(i).getPrecio());
+			
+		}
+		
+		if(viajesEncontrados.size() >= 2) {
 			
 			do {
 				
+				System.out.println("Elija un viaje por el indíce que aparece al inicio");
+				
+				try {
+					
+					indice = sc.nextInt();
+					sc.nextLine();
+					
+				}catch(IllegalArgumentException e) {
+					
+					System.err.println("Tipo de dato incorrecto");
+					sc.nextLine();
+					
+				}
+				
 			} while(indice < 0 || indice > viajesEncontrados.size());
-			
-			System.out.println("Elija un viaje por el indíce que aparece al inicio");
-			
-			indice = sc.nextInt();
-			sc.nextLine();
-			
-			viajeBuscar = viajesEncontrados.get(indice);
 			
 		} else {
 			
-			viajeBuscar = viajesEncontrados.get(0);
+			indice = 0;
 			
 		}
+		
+		viajeBuscar = viajesEncontrados.get(indice);
 		
 		return viajeBuscar;
 	}
 	
+	public static boolean eliminar(String lugar) {
+		
+		boolean eliminado = false;
+		Viaje viajeEliminar = buscar(lugar);
+		
+		eliminado = listaViajes.remove(viajeEliminar);
+		
+		return eliminado;
+	}
 	
-	
+	public static boolean modificar(String lugar) {
+		
+		boolean modificado = false;
+		Viaje viajeModificar = buscar(lugar);
+		Viaje viajeModificado;
+		double precio;
+		String fecha;
+		int opc;
+		
+		System.out.println("¿Qué quiere modificar?");
+		System.out.println("1. Fecha");
+		System.out.println("2. Precio");
+		
+		do {
+			
+			opc = sc.nextInt();
+			sc.nextLine();
+			
+			switch(opc) {
+			
+				case 1 -> {
+					
+					System.out.println("Introduzca una nueva fecha");
+					fecha = sc.nextLine();
+					
+					viajeModificado = new Viaje(viajeModificar.getLugar(), fecha, viajeModificar.getPrecio());
+					
+					listaViajes.remove(viajeModificar);
+					
+					listaViajes.add(viajeModificado);
+					
+					modificado = true;
+				}
+				
+				case 2 -> {
+					
+					System.out.println("Introduzca un nuevo precio");
+					precio = sc.nextDouble();
+					sc.nextLine();
+					
+					viajeModificado = new Viaje(viajeModificar.getLugar(), viajeModificar.getFecha(), precio);
+					
+					listaViajes.remove(viajeModificar);
+					
+					listaViajes.add(viajeModificado);
+					
+					modificado = true;
+					
+				}
+				
+				default -> {
+					
+					System.out.println("Opción introducida incorrecta");
+					
+				}
+			
+			}
+			
+		}while(!modificado && opc < 1 || opc > 2);
+		
+		return modificado;
+	}
+
 }

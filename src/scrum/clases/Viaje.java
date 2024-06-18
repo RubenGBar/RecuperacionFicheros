@@ -10,7 +10,7 @@ public class Viaje {
 		if(lugar != null && !lugar.equals("")) {
 			this.lugar = lugar;
 		}
-		if(fecha != null && fecha.equals("[0-3]{1}[0-9]{1}/[0-1]{1}[0-9]{1}/[0-9]{4}")) {
+		if(fecha != null && fecha.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
 			this.fecha = fecha;
 		}
 		if(precio > 0) {
@@ -44,7 +44,7 @@ public class Viaje {
 	}
 
 	public void setFecha(String fecha) {
-		if(fecha != null && fecha.equals("[0-3]{1}[0-9]{1}/[0-1]{1}[0-9]{1}/[0-9]{4}")) {
+		if(fecha != null && fecha.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
 			this.fecha = fecha;
 		}
 	}
